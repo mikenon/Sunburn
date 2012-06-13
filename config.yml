@@ -1,0 +1,35 @@
+# Author: Mikenon
+# Created: May 25th, 2012
+# Updated: June 12th, 2012
+# This plugin is a Work in Progress.
+# ---------------------------------- 
+# enabled [true|false]
+# worlds [world list]
+# burnLevel [0-9] - The amount of sunlight it takes to ignite a player.
+# -- Calculation: Ceiling( ( (total light - light from blocks) * light from sky) / 25 )
+# burnTicksOn [number] - The number of ticks to burn a player when exposed to burnLevel light
+# burnTicksOff [number] - The number of ticks to burn a player after exposed to burnLevel light
+# -- One second is roughly 20 ticks.
+# widget: - The visible graphic added to the HUD
+#   x: [0-427] - Placement of the widget, number of pixels from the left side.
+#   y: [0-240] - Placement of the widget, number of pixels from the top.
+#   w: [number] - The width of the widget, default is 21
+#   h: [number] - The height of the widget, default is 21
+#   textureUrl: [http://something] - Change this only if you want to override the default art.
+#   -- textureUrl+"00.png" through textureUrl+"09.png", as well as "fire.png", "frameBlack.png" and "frameRed.png"
+#   -- must be available.
+enabled: true
+worlds:
+- world
+- newworld
+- another_world
+burnLevel: 9
+burnTicksOn: 320
+burnTicksOff: 20
+widget:
+    x: 99
+    y: 218
+    w: 21
+    h: 21
+    textureUrl: http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/21/
+debug: true
