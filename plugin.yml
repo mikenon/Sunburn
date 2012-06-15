@@ -1,8 +1,8 @@
 name: Sunburn
-version: 0.4
+version: 0.5
 description: Add sun damage to the game.
 author: mikenon
-main: me.cyberstalk.spoutplugin.sunburn.Sunburn
+main: me.cyberstalk.plugin.sunburn.Sunburn
 depend: [Spout]
 commands:
   sunburn:

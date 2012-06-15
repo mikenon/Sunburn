@@ -1,6 +1,6 @@
 # Author: Mikenon
 # Created: May 25th, 2012
-# Updated: June 12th, 2012
+# Updated: June 15th, 2012
 # This plugin is a Work in Progress.
 # ---------------------------------- 
 # enabled [true|false]
@@ -18,6 +18,8 @@
 #   textureUrl: [http://something] - Change this only if you want to override the default art.
 #   -- textureUrl+"00.png" through textureUrl+"09.png", as well as "fire.png", "frameBlack.png" and "frameRed.png"
 #   -- must be available.
+# debuglog: [true|false] - renamed in version 0.5 to set default on previous installs.
+# enablestats: [true|false] - enable the plugin to report stats to http://mcstats.org/plugin/sunburn
 enabled: true
 worlds:
 - world
@@ -32,4 +34,5 @@ widget:
     w: 21
     h: 21
     textureUrl: http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/21/
-debug: true
+debuglog: false
+enablestats: true

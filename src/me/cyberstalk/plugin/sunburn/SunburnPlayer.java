@@ -31,13 +31,9 @@ public class SunburnPlayer {
 		this.immune = Sunburn.perms.has(player, "sunburn.immunity");
 		this.world = player.getWorld().getName();
 		Sunburn.getWidget().initWidget((SpoutPlayer)player);
-		Melden.Debug("SunburnPlayer created");
 	}
 	
-	// private static HashMap<String, SunburnPlayer> sunburnPlayer = new HashMap<String, SunburnPlayer>();
-	
 	public void onMove(){
-		Melden.Debug("onMove");
 		calcLightLevel();
 		updateWidget();
 		updateBurnTicks();
@@ -60,13 +56,10 @@ public class SunburnPlayer {
 	
 	public void updateBurnTicks(){
 		if(creativeOrImmune()) return;
-		Melden.Debug("updateBurnTicks");
 		int item = getItemStatus();
-		Melden.Debug("Item: "+item);
 		if(item > -1){
 			Melden.chat(player, "Item Immunity: "+item);
 		} else {
-			Melden.Debug("No Item: "+item);
 			if(Config.worldEnabled(player.getWorld().getName())){
 				if(lightLevel>=Config.getBurnLevel()){
 					burnPlayer(Config.getBurnTicksOn());
@@ -105,16 +98,23 @@ public class SunburnPlayer {
 	}
 	
 	public void itemUsed(ItemType type){
-		if(type==ItemType.Lotion1x){
+		if(type.compareTo(ItemType.Lotion1x)==0){
 			this.itemStrength = 1;
-			long t = System.currentTimeMillis();
-			this.itemLastUsed = (int) (t / 1000);
-			this.itemDuration = this.itemStrength * 10;
-			Sunburn.getWidget().setFrame(1);
-			Sunburn.getWidget().setLotion(9);
+		} else if(type.compareTo(ItemType.Lotion2x)==0){
+			this.itemStrength = 2;
+		} else if(type.compareTo(ItemType.Lotion3x)==0){
+			this.itemStrength = 3;
+		}
+		
+		long t = System.currentTimeMillis();
+		this.itemLastUsed = (int) (t / 1000);
+		this.itemDuration = this.itemStrength * 10;
+		Sunburn.getWidget().setFrame(1);
+		Sunburn.getWidget().setLotion(9);
+		if(Sunburn.asyncTaskId == -1){
 			Sunburn.asyncTaskId = Bukkit.getServer().getScheduler().scheduleAsyncRepeatingTask(
-																		Sunburn.getInstance(), 
-																		Sunburn.lotionUpdater, 20, 10);
+									Sunburn.getInstance(), 
+									Sunburn.lotionUpdater, 20, 10);
 		}
 	}
 	
@@ -122,14 +122,11 @@ public class SunburnPlayer {
 		long t = System.currentTimeMillis();
 		int currentTime = (int) (t / 1000);
 		int endTime = this.itemLastUsed + this.itemDuration;
-//		Melden.Debug("Current Time: "+currentTime);
-//		Melden.Debug("End Time: "+endTime);
 		if(currentTime > endTime){
-//			Melden.Debug("Returning 0");
 			return -1;
 		} else {
-			int numb = (endTime - currentTime) / this.itemStrength;
-//			Melden.Debug("Returning "+numb);
+			int numb = (int) Math.ceil((endTime - currentTime) / this.itemStrength);
+			numb -= 1;
 			return numb;
 		}
 	}

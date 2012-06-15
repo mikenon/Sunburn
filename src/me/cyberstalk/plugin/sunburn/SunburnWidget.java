@@ -5,7 +5,6 @@ import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import me.cyberstalk.plugin.sunburn.util.Config;
-import me.cyberstalk.plugin.sunburn.util.Melden;
 
 public class SunburnWidget {
 
@@ -34,7 +33,6 @@ public class SunburnWidget {
 	}
 	
 	public void initWidget(SpoutPlayer player){
-		Melden.Info("initWidget()");
 //    	The inner part of the widget - lotion sun
     	imageMeatLotion = new GenericTexture();
     	imageMeatLotion.setX(Config.getWidgetX())
@@ -67,30 +65,15 @@ public class SunburnWidget {
     	player.getMainScreen().attachWidget(plugin, imageFrame);
     }
     
-    public void updateWidget(SpoutPlayer player, int BurnLevel){
-//    	if(imageMeatRegular == null){
-//    		initWidget(player);
-//    	}
-//    	if(BurnLevel >= Config.getBurnLevel()){
-//    		setFrame(2);
-//    	} else {
-//    		setFrame(0);
-//    	}
-//    	setRegular(BurnLevel);
-    }
-    
     public void setRegular(int level){
     	imageMeatRegular.setUrl(urlMeatRegular[level]);
-    	Melden.Info("Widget setRegular("+level+")");
     }
    
     public void setLotion(int level){
     	imageMeatLotion.setUrl(urlMeatLotion[level]);
-    	Melden.Info("Widget setLotion("+level+")");
     }
     
     public void setFrame(int level){
     	imageFrame.setUrl(urlFrame[level]);
-    	Melden.Info("Widget setFrame("+level+")");
     }
 }

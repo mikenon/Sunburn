@@ -25,7 +25,17 @@ public class SunburnItemListener implements Listener{
 		SpoutPlayer splayer = (SpoutPlayer) player;
 		if (new SpoutItemStack(splayer.getItemInHand()).isCustomItem()) {
 			String name = new SpoutItemStack(splayer.getItemInHand()).getMaterial().getName();
-			if(Sunburn.itemLotion.itemName.equalsIgnoreCase(name)){
+			ItemType type = null;
+			
+			if(name.equalsIgnoreCase(Sunburn.itemLotion1x.itemName)){
+				type = Sunburn.itemLotion1x.itemType;
+			} else if(name.equalsIgnoreCase(Sunburn.itemLotion2x.itemName)){
+				type = Sunburn.itemLotion2x.itemType;
+			} else if(name.equalsIgnoreCase(Sunburn.itemLotion3x.itemName)){
+				type = Sunburn.itemLotion3x.itemType;
+			}
+			
+			if(type != null){
 				if(event.getAction()==Action.RIGHT_CLICK_AIR || event.getAction()==Action.RIGHT_CLICK_BLOCK){
 					String playername = player.getName();
 					if (player.getItemInHand().getAmount() > 1)
@@ -36,7 +46,7 @@ public class SunburnItemListener implements Listener{
 								org.bukkit.Material.AIR));
 					}
 					if(player.getFireTicks()>0) player.setFireTicks(0);
-					Sunburn.sunburnPlayer.get(playername).itemUsed(Sunburn.itemLotion.itemType);
+					Sunburn.sunburnPlayer.get(playername).itemUsed(type);
 					player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 15, 1), false);
 				}
 			}

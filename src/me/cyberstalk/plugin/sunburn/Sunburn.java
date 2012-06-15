@@ -1,9 +1,11 @@
 package me.cyberstalk.plugin.sunburn;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import me.cyberstalk.plugin.sunburn.metrics.Metrics;
 import me.cyberstalk.plugin.sunburn.util.Config;
 import me.cyberstalk.plugin.sunburn.util.Melden;
 import net.milkbowl.vault.permission.Permission;
@@ -44,7 +46,9 @@ public class Sunburn extends JavaPlugin{
     
     public static HashMap<String, SunburnPlayer> sunburnPlayer = new HashMap<String, SunburnPlayer>();
     
-    public static SunburnItem itemLotion;
+    public static SunburnItem itemLotion1x;
+    public static SunburnItem itemLotion2x;
+    public static SunburnItem itemLotion3x;
     
     public static boolean debug = true;
 	
@@ -61,37 +65,65 @@ public class Sunburn extends JavaPlugin{
 		cacheImages();
 		makeItems();
 		getServer().getPluginManager().registerEvents(new SunburnItemListener(this),this);
+//		SpoutWorld w;
+//		MaterialManager m;
+		if(Config.allowStats()){
+			try {
+			    Metrics metrics = new Metrics(this);
+			    metrics.start();
+			    Melden.Info("Stats are enabled");
+			} catch (IOException e) {
+				Melden.Info("Stats failed to enable");
+			}
+		} else {
+			Melden.Info("Stats are disabled");
+		}
 	}
 
+	public void onDisable() {
+		Melden.Info("v" + getDescription().getVersion() + " Disabled");
+	}
+	
 	private void cacheImages() {
 		for(String url : widget.urlFrame){
 			SpoutManager.getFileManager().addToPreLoginCache(this, url);
-			Melden.Info("Caching "+url);
 		}
 		for(String url : widget.urlMeatLotion){
 			SpoutManager.getFileManager().addToPreLoginCache(this, url);
-			Melden.Info("Caching "+url);
 		}
 		for(String url : widget.urlMeatRegular){
 			SpoutManager.getFileManager().addToPreLoginCache(this, url);
-			Melden.Info("Caching "+url);
 		}
 		SpoutManager.getFileManager().addToPreLoginCache(this, "http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/items/lotion.png");
 	}
 	
 	private void makeItems(){
-		itemLotion = new SunburnItem(this, "Lotion 1x", "http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/items/lotion.png");
-		ItemStack result = new SpoutItemStack(itemLotion, 1);
+		itemLotion1x = new SunburnItem(this, "Lotion SPF 10", "http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/items/lotion.png", ItemType.Lotion1x);
+		ItemStack result = new SpoutItemStack(itemLotion1x, 1);
         SpoutShapedRecipe recipe = new SpoutShapedRecipe(result);
         recipe.shape(new String[] { " A ", " B ", " C " });
 		recipe.setIngredient('A', MaterialData.getMaterial(377)); // blaze powder
 		recipe.setIngredient('B', MaterialData.getMaterial(335)); // milk
 		recipe.setIngredient('C', MaterialData.getMaterial(374)); // glass bottle
 		SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
-	}
-
-	public void onDisable() {
-		Melden.Info("v" + getDescription().getVersion() + " Disabled");
+		
+		itemLotion2x = new SunburnItem(this, "Lotion SPF 20", "http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/items/lotion.png", ItemType.Lotion2x);
+		result = new SpoutItemStack(itemLotion2x, 1);
+        recipe = new SpoutShapedRecipe(result);
+        recipe.shape(new String[] { " A ", " B ", " C " });
+		recipe.setIngredient('A', MaterialData.getMaterial(377)); // blaze powder
+		recipe.setIngredient('B', MaterialData.getMaterial(335)); // milk
+		recipe.setIngredient('C', itemLotion1x); // lotion 1x
+		SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
+		
+		itemLotion3x = new SunburnItem(this, "Lotion SPF 30", "http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/items/lotion.png", ItemType.Lotion3x);
+		result = new SpoutItemStack(itemLotion3x, 1);
+        recipe = new SpoutShapedRecipe(result);
+        recipe.shape(new String[] { " A ", " B ", " C " });
+		recipe.setIngredient('A', MaterialData.getMaterial(377)); // blaze powder
+		recipe.setIngredient('B', MaterialData.getMaterial(335)); // milk
+		recipe.setIngredient('C', itemLotion2x); // lotion 1x
+		SpoutManager.getMaterialManager().registerSpoutRecipe(recipe);
 	}
 	
 	private boolean setupPermissions() {
@@ -296,7 +328,6 @@ public class Sunburn extends JavaPlugin{
 	};
 
 	static void cancelLotionUpdater() {
-		System.out.println("[Sunburn] cancelLotionUpdater() taskId: "+Sunburn.asyncTaskId);
 		if(Sunburn.asyncTaskId > -1){
 			Bukkit.getServer().getScheduler().cancelTask(Sunburn.asyncTaskId);
 			Sunburn.asyncTaskId = -1;

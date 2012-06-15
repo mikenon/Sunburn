@@ -19,6 +19,7 @@ public class Config {
 	static int cWidgetH;
 	static String cUrl;
 	static boolean cDebug;
+	static boolean cStats;
 	
 	public static void init(Sunburn instance) {
 		plugin = instance;
@@ -98,6 +99,10 @@ public class Config {
 		return cDebug;
 	}
 	
+	public static boolean allowStats(){
+		return cStats;
+	}
+	
 	public static void setVars(){
 		cEnabled = plugin.getConfig().getBoolean("enabled", true);
 		cWorlds = plugin.getConfig().getList("worlds",Arrays.asList(new String[] {"world","newworld","another_world"}));
@@ -109,7 +114,8 @@ public class Config {
 		cWidgetW = plugin.getConfig().getInt("widget.w", 21);
 		cWidgetH = plugin.getConfig().getInt("widget.h", 21);
 		cUrl = plugin.getConfig().getString("widget.textureUrl");
-		cDebug = plugin.getConfig().getBoolean("debug",false);
+		cDebug = plugin.getConfig().getBoolean("debuglog",false);
+		cStats = plugin.getConfig().getBoolean("enablestats",true);
 	}
 	
 	public static void printVars(){
@@ -123,13 +129,13 @@ public class Config {
 		Melden.Debug("[config] widget width "+cWidgetW);
 		Melden.Debug("[config] widget height "+cWidgetH);
 		Melden.Debug("[config] widget url "+cUrl);
-		Melden.Debug("[config] debug "+cDebug);
+		Melden.Debug("[config] debuglog "+cDebug);
 	}
 
 	private static String getHeader() {
 		String header = "Author: Mikenon\n"
 				+ "Created: May 25th, 2012"
-				+ "Updated: June 12th, 2012\n"
+				+ "Updated: June 15th, 2012\n"
 				+ "This plugin is a Work in Progress.\n"
 				+ "---------------------------------- \n"
 				+ "enabled [true|false]\n"
@@ -146,7 +152,9 @@ public class Config {
 				+ "  h: [number] - The height of the widget, default is 21\n"
 				+ "  textureUrl: [http://something] - Change this only if you want to override the default art.\n"
 				+ "  -- textureUrl+\"00.png\" through textureUrl+\"09.png\", as well as \"fire.png\", \"frameBlack.png\" and \"frameRed.png\"\n"
-				+ "  -- must be available.\";\n";
+				+ "  -- must be available.\n"
+				+ "debuglog: [true|false] - renamed in version 0.5 to set default on previous installs.\n"
+				+ "enablestats: [true|false] - enable the plugin to report stats to http://mcstats.org/plugin/sunburn";
 		return header;
 	}
 }

@@ -8,10 +8,10 @@ public class SunburnItem extends GenericCustomItem{
   String itemName;
   ItemType itemType;
 
-  public SunburnItem(Plugin plugin, String name, String texture){
+  public SunburnItem(Plugin plugin, String name, String texture, ItemType type){
     super(plugin, name, texture);
     itemName = name;
-    itemType = ItemType.Lotion1x;
+    itemType = type;
   }
 
 }
