@@ -1,5 +1,5 @@
 name: Sunburn
-version: 0.5
+version: 0.6
 description: Add sun damage to the game.
 author: mikenon
 main: me.cyberstalk.plugin.sunburn.Sunburn

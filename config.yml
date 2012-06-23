@@ -36,3 +36,16 @@ widget:
     textureUrl: http://dl.dropbox.com/u/79326363/Spout/Sunburn/images/21/
 debuglog: false
 enablestats: true
+
+/sunburn level [0-9]
+Sets the level at which players ignite, and is saved in config.yml
+/sunburn burn [number]
+Burns the person calling the command for [number] ticks
+/sunburn burn [player] [number]
+Burns [player] for [number] ticks
+/sunburn reload
+Reloads the configuration
+/sunburn weather
+Calling this sets the duration of the current weather to 1 tick. Forces weather to change.
+/sunburn permissions
+Lists permissions used

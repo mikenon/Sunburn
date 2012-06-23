@@ -7,12 +7,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 public class SunburnPlayer {
-	public Sunburn plugin;
-	public Player player;
+	public SpoutPlayer player;
 	public String name;
 	public boolean immune;
 	public String world;
@@ -24,13 +22,12 @@ public class SunburnPlayer {
 	private int itemDuration;
 	private int itemStrength;
 	
-	SunburnPlayer(Sunburn plugin, String name){
-		this.plugin = plugin;
+	SunburnPlayer(String name){
 		this.name = name;
-		player = plugin.getServer().getPlayer(this.name);
+		this.player = (SpoutPlayer)Sunburn.getInstance().getServer().getPlayer(this.name);
 		this.immune = Sunburn.perms.has(player, "sunburn.immunity");
 		this.world = player.getWorld().getName();
-		Sunburn.getWidget().initWidget((SpoutPlayer)player);
+		Sunburn.getWidget().initWidget(player);
 	}
 	
 	public void onMove(){
@@ -80,8 +77,8 @@ public class SunburnPlayer {
 			return true;
 		if(getItemStatus()>-1)
 			return true;
-//		return this.immune;
-		return false;
+		return this.immune;
+//		return false;
 	}
 	
 	public void calcLightLevel(){
